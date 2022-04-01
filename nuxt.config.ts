@@ -3,7 +3,7 @@ import { defineNuxtConfig } from 'nuxt3'
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
   meta: {
-    title: "Nuxt3 + Firebase Authentication Demo",
+    title: "Nuxt3 + Firebase9 Authentication Demo",
     meta: [
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       {
@@ -29,6 +29,7 @@ export default defineNuxtConfig({
   typescript: {
     shim: false,
   },
-  target: 'static',
-  ssr: false
+  build: {
+    transpile: ['primevue']
+  }
 })
