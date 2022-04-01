@@ -29,10 +29,6 @@ export default defineNuxtConfig({
   typescript: {
     shim: false,
   },
-  build: {
-    // Add exception
-    transpile: [
-      "vee-validate/dist/rules"
-    ]
-  }
+  target: 'static',
+  ssr: false
 })
