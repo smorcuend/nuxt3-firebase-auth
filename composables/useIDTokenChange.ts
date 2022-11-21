@@ -6,7 +6,7 @@ import useUser from './useUser'
  * Sets user composable and token cookie value
  * based on sign-in, sign-out, and token refresh events.
  */
-export default function() {
+export default function () {
   const { $firebaseAuth } = useNuxtApp()
   const token = useCookie('token')
 
@@ -15,12 +15,11 @@ export default function() {
   let unsubscribe: Unsubscribe
 
   onMounted(() => {
-    unsubscribe = $firebaseAuth.onIdTokenChanged(async(user) => {
+    unsubscribe = $firebaseAuth.onIdTokenChanged(async user => {
       if (user) {
         token.value = await user.getIdToken()
         firebaseUser.value = formatUser(user)
-      }
-      else {
+      } else {
         token.value = null
         firebaseUser.value = null
       }

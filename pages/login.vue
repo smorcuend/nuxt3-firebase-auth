@@ -1,125 +1,104 @@
 <template>
   <div class="flex align-items-center justify-content-center overflow-hidden">
-    <div class="grid justify-content-center p-2 lg:p-0" style="min-width:80%">
+    <div class="grid justify-content-center p-2 lg:p-0" style="min-width: 80%">
       <div
         class="col-12 xl:col-6"
-        style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color), rgba(33, 150, 243, 0) 30%);"
+        style="
+          border-radius: 56px;
+          padding: 0.3rem;
+          background: linear-gradient(180deg, var(--primary-color), rgba(33, 150, 243, 0) 30%);
+        "
       >
         <div
           class="h-full w-full m-0 py-7 px-4"
-          style="border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));"
+          style="
+            border-radius: 53px;
+            background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));
+          "
         >
           <!-- <div class="text-center mb-5" v-if="user">
             <div class="text-900 text-3xl font-medium mb-3">Welcome, {{ user.email }}!</div>
             <span class="text-600 font-medium">Sign in to continue</span>
           </div> -->
 
-          <ClientOnly>
-            <div class="w-full md:w-10 mx-auto">
-              <Form
-                @submit="onSubmit"
-                :validation-schema="schema"
-                @invalid-submit="onInvalidSubmit"
-              >
-                <TextInput
-                  name="email"
-                  type="email"
-                  label="E-mail"
-                  placeholder="Your email address"
-                  success-message="Got it, we won't spam you!"
-                />
-                <TextInput
-                  name="password"
-                  type="password"
-                  label="Password"
-                  placeholder="Your password"
-                  success-message="Nice and secure!"
-                />
-                <Button
-                  :label="disabled ? 'Please wait...' : 'Sign in'"
-                  class="w-full p-3 text-xl submit-btn"
-                  type="submit"
-                  :disabled="disabled"
-                />
-              </Form>
-              <!-- <span class="p-float-label mt-5 text-xl">
-                <InputText id="email1" v-model="signinForm.email" type="text" class="w-full" />
-                <label for="email1">User</label>
-              </span>
-              <span class="p-float-label mt-5 text-xl">
-                <Password
-                  id="password1"
-                  v-model="signinForm.password"
-                  :toggleMask="false"
-                  class="w-full"
-                  inputClass="w-full"
-                />
-                <label for="password1">Password</label>
-              </span>
-              <div class="mt-5">
-                <Button
-                  :label="disabled ? 'Please wait...' : 'Sign in'"
-                  class="w-full p-3 text-xl"
-                  @click="signin()"
-                  :disabled="disabled"
-                />
-              </div>-->
-            </div>
-          </ClientOnly>
+          <div class="w-full md:w-10 mx-auto">
+            <Form @submit="onSubmit" :validation-schema="schema" @invalid-submit="onInvalidSubmit">
+              <TextInput
+                name="email"
+                type="email"
+                label="E-mail"
+                placeholder="Your email address"
+                success-message="Got it, we won't spam you!"
+              />
+              <TextInput
+                name="password"
+                type="password"
+                label="Password"
+                placeholder="Your password"
+                success-message="Nice and secure!"
+              />
+              <Button
+                :label="disabled ? 'Please wait...' : 'Sign in'"
+                class="w-full p-3 text-xl submit-btn"
+                ref="submitBtn"
+                type="submit"
+                :disabled="disabled"
+              />
+            </Form>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { Form } from 'vee-validate';
+import { Form } from 'vee-validate'
 import '~/utils/vee-validate-rules'
+import { User } from '~/models/User'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import TextInput from '~/components/TextInput.vue';
+import TextInput from '~/components/TextInput.vue'
 
-const { $firebaseAuth } = useNuxtApp()
-const user = useUser()
-const router = useRouter()
+const { $toast, $firebaseAuth } = useNuxtApp()
+const user$ = useUser()
 const disabled = ref(false)
-const signinForm = ref({ email: '', password: '' });
+const signinForm = ref({ email: '', password: '' })
+const submitBtn = ref()
+const token = useCookie('token')
 
 const schema = ref({
   email: 'required|email',
-  password: 'required|min:8',
-});
+  password: 'required|min:8'
+})
 
 const signin = async () => {
-  if (signinForm.value.email || signinForm.value.password)
-    disabled.value = true
+  if (signinForm.value.email || signinForm.value.password) disabled.value = true
   try {
-    const credentials = await signInWithEmailAndPassword(
+    const { user } = await signInWithEmailAndPassword(
       $firebaseAuth,
       signinForm.value.email,
-      signinForm.value.password,
+      signinForm.value.password
     )
-    console.log('credentials', credentials)
-    user.value = credentials.user
-    router.push('/')
+    user$.value = user as User
+    token.value = user$.value.accessToken || ''
+    navigateTo('/')
   } catch (error) {
-    console.error('error', error);
-    signinForm.value = { email: "", password: "" };
+    $toast.add({ severity: 'error', summary: 'Error Message', detail: error, life: 3000 })
+    signinForm.value = { email: '', password: '' }
+    disabled.value = false
   }
-};
+}
 
-function onSubmit(values) {
-  signinForm.value = { ...values }
+function onSubmit({ email = '', password = '' }) {
+  signinForm.value = { email, password }
   signin()
 }
 
 function onInvalidSubmit() {
-  const submitBtn = document.querySelector(".submit-btn");
-  submitBtn.classList.add("invalid");
+  submitBtn.value.classList.add('invalid')
   setTimeout(() => {
-    submitBtn.classList.remove("invalid");
-  }, 1000);
+    submitBtn.value.classList.remove('invalid')
+  }, 1000)
 }
-
-
 </script>
 <style>
 .submit-btn {

@@ -4,6 +4,6 @@ import type { User } from 'firebase/auth'
 export default function formatUser(user: User | DecodedIdToken) {
   return {
     uid: user.uid,
-    email: user.email,
+    email: user.email || ''
   }
 }

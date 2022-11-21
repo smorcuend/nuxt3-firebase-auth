@@ -4,18 +4,14 @@ import { defineNuxtPlugin } from '#app'
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
-  const firebaseConfig = {
-    apiKey: config.firebaseApiKey,
-    authDomain: config.firebaseAuthDomain,
-  }
-
-  const app = initializeApp(firebaseConfig)
+  const { firebase } = config.public
+  const app = initializeApp({ ...firebase })
   const auth = getAuth(app)
 
   return {
     provide: {
       firebaseApp: app,
-      firebaseAuth: auth,
-    },
+      firebaseAuth: auth
+    }
   }
 })

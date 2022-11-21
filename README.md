@@ -9,15 +9,13 @@ Authenticated server-side rendering with Nuxt 3 and Firebase 9
 
 - 🔥 The `<script setup>` syntax
 
-- 🚠 Firebase v9 for Firebase Authentication services
+- 🚠 Firebase v9 for Firebase Authentication services (client side authentication)
 
 - 🚀 The PrimeVue for styled components
 
 - 🚦 VeeValidate for input forms with i18n support
 
 - 📥 APIs auto importing - for Composition API, VueUse and custom composables.
-
-- 🏎 Firebase cloud functions and deploy [TODO] 
 
 - 🦾 Mainly TypeScript
 
@@ -34,8 +32,8 @@ npm install
 ```
 
 ## Firebase setup
-First of all, you need to create Firebase acount and SDK setup. [Firebase Official Docs](https://firebase.google.com/docs/auth/web/start?)
-You need to create `.env` file with this content from Firebase project:
+First of all, you need to create [Firebase](https://firebase.google.com/docs/auth/web/start?) acount and SDK setup.
+You need to create `.env` file with this content from Firebase project (security credentials should never be shared):
 ```bash
 cp .env.example .env
 ```
@@ -43,7 +41,6 @@ cp .env.example .env
 Set [service account](https://firebase.google.com/docs/admin/setup#initialize-sdk) environment variable:
 ```
 FIREBASE_API_KEY=
-FIREBASE_AUTH_DOMAIN=
 ```
 
 ## Development
@@ -64,26 +61,14 @@ npx nuxi preview
 
 ## Production
 
-Build the application for production:
+### * [Deploy nuxt with Firebase Hosting (Blaze Plan needed)](https://nitro.unjs.io/deploy/providers/firebase)
 
-```bash
-NITRO_PRESET=firebase npm run build
-```
+### * [Deploy nuxt with Vercel](https://nitro.unjs.io/deploy/providers/vercel)
 
-Using emulators, you can preview the result on locally
-```bash
-firebase emulators:start 
-```
-
-Deploy
-```bash
-firebase deploy
-```
-
-Checkout the [deployment documentation](https://v3.nuxtjs.org/docs/deployment).
+### * [Deploy on others PaaS with Nitro](https://nitro.unjs.io/deploy/)
 
 ## References
-- [Nuxt3](https://v3.nuxtjs.org)
+- [Nuxt3 (Stable)](https://nuxt.com)
 - [Firebase 9](https://firebase.google.com)
 - [Primevue](https://www.primefaces.org/primevue/#/)
 - [VeeValidate 4](https://vee-validate.logaretm.com/v4/)

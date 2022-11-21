@@ -1,10 +1,6 @@
 import { useState } from '#app'
-
-interface User {
-  uid: string
-  email: string
-}
+import { User } from '~~/models/User'
 
 export default function () {
-  return useState<User>('user', null)
+  return useState<User | null>('user', () => null)
 }

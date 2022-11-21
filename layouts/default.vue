@@ -11,26 +11,6 @@
       </div>
     </div>
     <AppFooter />
+    <Toast />
   </div>
 </template>
-  
-<script setup lang="ts">
-useIDTokenChange()
-const showHideSpinner = ref(true)
-// onBeforeMount(() =>{
-//   showHideSpinner.value = false
-// })
-onMounted(() => {
-  showHideSpinner.value = false
-})
-</script>
-<style>
-html,
-body {
-  font-family: "Lato", sans-serif;
-}
-:root {
-  --error-color: brown;
-  --success-color: teal;
-}
-</style>
