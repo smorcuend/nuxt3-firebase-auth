@@ -5,7 +5,7 @@ Authenticated server-side rendering with Nuxt 3 and Firebase 9
 ![Screenshot](docs/screenshot.png)
 
 ## Features
-- [💚 Nuxt 3](https://v3.nuxtjs.org) - SSR, ESR, File-based routing, components auto importing, modules, etc. Are you new in Nuxt3? We recommend to look at the [documentation](https://v3.nuxtjs.org/docs).
+- [💚 Nuxt 3](https://nuxt.com) - SSR, ESR, File-based routing, components auto importing, modules, etc. Are you new in Nuxt3? We recommend to look at the [documentation](https://nuxt.com/docs).
 
 - 🔥 The `<script setup>` syntax
 
