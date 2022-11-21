@@ -6,7 +6,7 @@
     "start": "nuxi preview"
   },
   "devDependencies": {
-    "nuxt": "^3.0.0-rc.14"
+    "nuxt": "^3.0.0"
   },
   "dependencies": {
     "@vee-validate/rules": "^4.5.10",
